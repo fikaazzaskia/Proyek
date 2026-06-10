@@ -26,7 +26,7 @@
     ];
 
     const formatTanggal = (dateStr) => {
-        const d = new Date(dateStr);
+        const d = new Date(dateStr + 'T00:00:00');
         if (isNaN(d)) return dateStr;
         const hari = HARI_INDO[d.getDay()];
         const tgl = d.getDate();
@@ -38,7 +38,7 @@
     };
 
     const formatTanggalShort = (dateStr) => {
-        const d = new Date(dateStr);
+        const d = new Date(dateStr + 'T00:00:00');
         if (isNaN(d)) return dateStr;
         const tgl = d.getDate();
         const bulan = BULAN_INDO[d.getMonth()];
@@ -146,12 +146,10 @@
 
     // Confirm OK
     $('#btn-confirm-ok').addEventListener('click', () => {
+        const cb = confirmCallback;
+        confirmCallback = null;
         closeModal('modal-confirm');
-        if (confirmCallback) {
-            const cb = confirmCallback;
-            confirmCallback = null;
-            cb(true);
-        }
+        if (cb) cb(true);
     });
 
 
@@ -401,7 +399,10 @@
         if (b.status === 'selesai') {
             return `<span class="badge badge-confirmed">Selesai</span>`;
         }
-        return `<span class="badge badge-cancelled">Dibatalkan</span>`;
+        if (b.status === 'cancelled') {
+            return `<span class="badge badge-cancelled">Dibatalkan</span>`;
+        }
+        return '';
     }
 
     async function handleBookingAction(e) {
@@ -917,9 +918,7 @@
     });
 
 
-    /* ============================================================
-       UTILITIES
-       ============================================================ */
+    // UTILITIES
     function statusBadge(status) {
         const map = {
             pending: '<span class="badge badge-pending">Pending</span>',
@@ -937,9 +936,7 @@
     }
 
 
-    /* ============================================================
-       INIT
-       ============================================================ */
+    // INIT
     checkSession();
 
 })();

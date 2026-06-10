@@ -25,7 +25,7 @@ if (!$id || !in_array($action, ['confirm', 'cancel'])) {
     exit;
 }
 
-$newStatus = $action === 'confirm' ? 'confirmed' : 'cancelled';
+$newStatus = $action === 'confirm' ? 'selesai' : 'cancelled';
 
 // Cek apakah booking masih pending
 $stmt = $pdo->prepare("SELECT status FROM bookings WHERE id = ?");

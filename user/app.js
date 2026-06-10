@@ -4,7 +4,7 @@
    ============================================ */
 
 // ─── API Configuration ─────────────────────────────
-const API_BASE = '/barbershop/api';
+const API_BASE = '/barbershop/user/api';
 
 // ─── Application State ─────────────────────────────
 const state = {
@@ -171,10 +171,6 @@ function renderServices() {
     <div class="service-card" style="transition-delay: ${i * 0.08}s">
       <div class="service-card-icon">✂️</div>
       <div class="service-card-name">${escapeHtml(service.nama)}</div>
-      <div class="service-card-duration">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        ${service.durasi} menit
-      </div>
       <div class="service-card-price">${formatCurrency(service.harga)}</div>
     </div>
   `).join('');
@@ -208,7 +204,6 @@ function renderBookingServices() {
     <div class="selectable-card" data-id="${service.id}" onclick="selectService(${service.id})">
       <div class="selectable-card-info">
         <div class="selectable-card-name">${escapeHtml(service.nama)}</div>
-        <div class="selectable-card-detail">${service.durasi} menit</div>
       </div>
       <div style="display:flex; align-items:center; gap:12px;">
         <div class="selectable-card-price">${formatCurrency(service.harga)}</div>
@@ -320,7 +315,7 @@ async function renderTimeSlots(dateStr) {
   const grid = document.getElementById('time-slots-grid');
   container.style.display = 'block';
 
-  const date = new Date(dateStr);
+  const date = new Date(dateStr + 'T00:00:00');
   const dayName = HARI_MAP[date.getDay()];
   const schedule = state.schedules.find(s =>
     s.hari.toLowerCase() === dayName.toLowerCase()
@@ -468,7 +463,9 @@ function handleCustomerInfoSubmit() {
 
   // Validate phone
   const phoneClean = hp.replace(/[^0-9]/g, '');
-  if (!phoneClean || phoneClean.length < 10) {
+  const phoneValid = phoneClean.length >= 10 && 
+    (phoneClean.startsWith('08') || phoneClean.startsWith('628'));
+  if (!phoneValid) {
     document.getElementById('error-hp').classList.add('visible');
     valid = false;
   } else {
@@ -490,16 +487,12 @@ function handleCustomerInfoSubmit() {
 function renderSummary() {
   const { service, barber, date, time } = state.booking;
   const dateFormatted = formatDateFull(date);
-  const dayName = HARI_MAP[new Date(date).getDay()];
+  const dayName = HARI_MAP[new Date(date + 'T00:00:00').getDay()];
 
   document.getElementById('summary-details').innerHTML = `
     <div class="summary-row">
       <span class="summary-label">Layanan</span>
       <span class="summary-value">${escapeHtml(service.nama)}</span>
-    </div>
-    <div class="summary-row">
-      <span class="summary-label">Durasi</span>
-      <span class="summary-value">${service.durasi} menit</span>
     </div>
     <div class="summary-row">
       <span class="summary-label">Barber</span>
@@ -588,9 +581,10 @@ function showQRIS(kodeBooking) {
     timerEl.textContent = seconds;
 
     if (seconds <= 0) {
-      clearInterval(qrisTimerInterval);
-      showConfirmation(kodeBooking);
-    }
+    clearInterval(qrisTimerInterval);
+    document.getElementById('qris-countdown').innerHTML = 
+        '✅ Selesai scan? <strong>Tunjukkan bukti transfer ke kasir</strong>';
+}
   }, 1000);
 }
 
@@ -601,7 +595,7 @@ function showConfirmation(kodeBooking) {
   document.getElementById('booking-code').textContent = kodeBooking;
 
   const { service, barber, date, time } = state.booking;
-  const dayName = HARI_MAP[new Date(date).getDay()];
+  const dayName = HARI_MAP[new Date(date + 'T00:00:00').getDay()];
   const dateFormatted = formatDateFull(date);
 
   document.getElementById('confirmation-summary').innerHTML = `
@@ -623,7 +617,7 @@ function showConfirmation(kodeBooking) {
       <span class="summary-value" style="color:var(--accent-dark);font-size:16px;">${formatCurrency(service.harga)}</span>
     </div>
     <div class="summary-row">
-      <span class="summary-label">Status</span>
+      <span class=\"summary-value\" style=\"color:var(--color-text-warning);\">⏳ MENUNGGU KONFIRMASI KASIR</span>
       <span class="summary-value" style="color:var(--success);">✓ TERKONFIRMASI</span>
     </div>
   `;
@@ -676,7 +670,7 @@ function formatDateISO(date) {
 }
 
 function formatDateFull(dateStr) {
-  const d = new Date(dateStr);
+  const d = new Date(dateStr + 'T00:00:00');
   return `${d.getDate()} ${BULAN_FULL[d.getMonth()]} ${d.getFullYear()}`;
 }
 

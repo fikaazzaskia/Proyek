@@ -20,6 +20,12 @@ if (!$nama || !$no_hp || !$layanan_id || !$barber_id || !$jadwal || !$metode) {
     exit;
 }
 
+if (!in_array($metode, ['QRIS', 'KASIR'])) {
+    http_response_code(422);
+    echo json_encode(['message' => 'Metode bayar tidak valid']);
+    exit;
+}
+
 // Validasi backend: cek apakah tanggal diblokir
 $stmtBlocked = $pdo->prepare("SELECT id FROM blocked_dates WHERE tanggal = DATE(?)");
 $stmtBlocked->execute([$jadwal]);

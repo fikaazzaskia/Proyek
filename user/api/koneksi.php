@@ -22,9 +22,15 @@ $user    = getenv('DB_USER') ?: 'root';
 $pass    = getenv('DB_PASS') ?: '';
 $charset = 'utf8mb4';
 
-$pdo = new PDO("mysql:host=$host;dbname=$db;charset=$charset", $user, $pass);
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=$charset", $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    http_response_code(500);
+    echo json_encode(['message' => 'Koneksi database gagal']);
+    exit;
+}
 
 /**
  * Set CORS headers based on ALLOWED_ORIGIN environment variable.
