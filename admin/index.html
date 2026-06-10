@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="King Barbershop — Admin Panel. Kelola booking, barber, layanan, dan jadwal barbershop Anda.">
+    <title>Admin Panel — King Barbershop</title>
+    <link rel="stylesheet" href="bootstrap-5.3.8-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ════════════════════════════════════════════════════
+     LOGIN PAGE
+     ════════════════════════════════════════════════════ -->
+<div id="login-page">
+    <div class="login-ornament login-ornament-1"></div>
+    <div class="login-ornament login-ornament-2"></div>
+    <div class="login-ornament login-ornament-3"></div>
+
+    <div class="login-card">
+        <div class="login-logo-king">KING</div>
+        <div class="login-logo-sub">BARBERSHOP</div>
+
+        <form id="login-form" autocomplete="off">
+            <div class="form-group">
+                <label for="login-username">Username</label>
+                <input type="text" id="login-username" placeholder="Masukkan username" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input type="password" id="login-password" placeholder="Masukkan password" required>
+            </div>
+            <div class="login-error" id="login-error"></div>
+            <button type="submit" class="btn-login" id="btn-login">MASUK</button>
+        </form>
+    </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════
+     ADMIN PANEL
+     ════════════════════════════════════════════════════ -->
+<div id="admin-panel">
+    <!-- Mobile overlay -->
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo-king">KING</div>
+            <div class="sidebar-logo-sub">BARBERSHOP</div>
+            <button class="sidebar-toggle" id="sidebar-toggle" title="Toggle sidebar">‹</button>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a class="nav-item active" data-page="dashboard" id="nav-dashboard">
+                <span class="nav-icon">◆</span>
+                <span class="nav-label">Dashboard</span>
+            </a>
+            <a class="nav-item" data-page="bookings" id="nav-bookings">
+                <span class="nav-icon">📋</span>
+                <span class="nav-label">Booking Masuk</span>
+            </a>
+            <a class="nav-item" data-page="schedules" id="nav-schedules">
+                <span class="nav-icon">🕐</span>
+                <span class="nav-label">Jadwal & Operasional</span>
+            </a>
+            <a class="nav-item" data-page="barbers" id="nav-barbers">
+                <span class="nav-icon">✂</span>
+                <span class="nav-label">Data Barber</span>
+            </a>
+            <a class="nav-item" data-page="services" id="nav-services">
+                <span class="nav-icon">💈</span>
+                <span class="nav-label">Layanan & Harga</span>
+            </a>
+            <a class="nav-item" data-page="transactions" id="nav-transactions">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Riwayat Transaksi</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a class="nav-item nav-item-logout" id="btn-logout">
+                <span class="nav-icon">⏻</span>
+                <span class="nav-label">Logout</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- ── MAIN CONTENT ── -->
+    <div class="main-content">
+        <header class="main-header">
+            <div>
+                <button class="mobile-toggle" id="mobile-toggle">☰</button>
+                <div class="main-header-title" id="header-title">Dashboard</div>
+                <div class="main-header-sub" id="header-shop-name">King Barbershop</div>
+            </div>
+            <div class="main-header-right">
+                <span class="admin-badge">● ADMIN</span>
+            </div>
+        </header>
+
+        <div class="page-content">
+
+            <!-- ═══ DASHBOARD ═══ -->
+            <div class="page-section active" id="section-dashboard">
+                <div class="dashboard-cards">
+                    <div class="dash-card">
+                        <div class="dash-card-icon gold">📅</div>
+                        <div class="dash-card-label">Booking Hari Ini</div>
+                        <div class="dash-card-value" id="dash-total-booking">0</div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-card-icon yellow">⏳</div>
+                        <div class="dash-card-label">Pending</div>
+                        <div class="dash-card-value" id="dash-total-pending">0</div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-card-icon green">✓</div>
+                        <div class="dash-card-label">Selesai</div>
+                        <div class="dash-card-value" id="dash-total-confirmed">0</div>
+                    </div>
+                    <div class="dash-card">
+                        <div class="dash-card-icon gold">💰</div>
+                        <div class="dash-card-label">Pendapatan Hari Ini</div>
+                        <div class="dash-card-value gold" id="dash-pendapatan">Rp 0</div>
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    Booking Terbaru Hari Ini
+                    <span class="title-line"></span>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Kode</th>
+                                <th>Nama</th>
+                                <th>Layanan</th>
+                                <th>Barber</th>
+                                <th>Jadwal</th>
+                                <th>Metode</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dash-recent-table">
+                            <tr><td colspan="7" class="loading-spinner"><div class="spinner"></div> Memuat data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ═══ BOOKING MASUK ═══ -->
+            <div class="page-section" id="section-bookings">
+                <div class="filter-bar">
+                    <select class="form-control" id="filter-booking-status">
+                        <option value="all">Semua Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="confirmed">Selesai</option>
+                        <option value="cancelled">Dibatalkan</option>
+                    </select>
+                    <button class="btn btn-ghost btn-sm" id="btn-refresh-bookings">↻ Refresh</button>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Kode Booking</th>
+                                <th>Nama</th>
+                                <th>No HP</th>
+                                <th>Layanan</th>
+                                <th>Barber</th>
+                                <th>Jadwal</th>
+                                <th>Metode</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookings-table">
+                            <tr><td colspan="9" class="loading-spinner"><div class="spinner"></div> Memuat data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ═══ JADWAL & OPERASIONAL ═══ -->
+            <div class="page-section" id="section-schedules">
+                <div class="section-title">
+                    Jam Operasional
+                    <span class="title-line"></span>
+                </div>
+
+                <div class="table-wrapper" style="padding: 20px 24px;">
+                    <div id="schedules-container">
+                        <div class="loading-spinner"><div class="spinner"></div> Memuat data...</div>
+                    </div>
+                </div>
+
+                <div class="blocked-section">
+                    <div class="section-title">
+                        Blokir Tanggal
+                        <span class="title-line"></span>
+                    </div>
+
+                    <div class="filter-bar">
+                        <input type="date" class="form-control form-control-date" id="blocked-date-input">
+                        <input type="text" class="form-control" id="blocked-ket-input" placeholder="Keterangan (opsional)" style="min-width:220px">
+                        <button class="btn btn-gold btn-sm" id="btn-add-blocked">+ Tambah Blokir</button>
+                    </div>
+
+                    <div id="blocked-dates-list"></div>
+                </div>
+            </div>
+
+            <!-- ═══ DATA BARBER ═══ -->
+            <div class="page-section" id="section-barbers">
+                <div class="filter-bar" style="justify-content: flex-end;">
+                    <button class="btn btn-gold" id="btn-add-barber">+ Tambah Barber</button>
+                </div>
+                <div class="barber-grid" id="barbers-grid">
+                    <div class="loading-spinner"><div class="spinner"></div> Memuat data...</div>
+                </div>
+            </div>
+
+            <!-- ═══ LAYANAN & HARGA ═══ -->
+            <div class="page-section" id="section-services">
+                <div class="filter-bar" style="justify-content: flex-end;">
+                    <button class="btn btn-gold" id="btn-add-service">+ Tambah Layanan</button>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nama Layanan</th>
+                                <th>Durasi</th>
+                                <th>Harga</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="services-table">
+                            <tr><td colspan="5" class="loading-spinner"><div class="spinner"></div> Memuat data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ═══ RIWAYAT TRANSAKSI ═══ -->
+            <div class="page-section" id="section-transactions">
+                <div class="filter-bar">
+                    <input type="date" class="form-control form-control-date" id="filter-trans-from" title="Dari tanggal">
+                    <span style="color: var(--ivory-muted); font-size: 0.8rem;">s/d</span>
+                    <input type="date" class="form-control form-control-date" id="filter-trans-to" title="Sampai tanggal">
+                    <select class="form-control" id="filter-trans-barber">
+                        <option value="">Semua Barber</option>
+                    </select>
+                    <select class="form-control" id="filter-trans-metode">
+                        <option value="">Semua Metode</option>
+                        <option value="QRIS">QRIS</option>
+                        <option value="KASIR">KASIR</option>
+                    </select>
+                    <button class="btn btn-gold btn-sm" id="btn-filter-trans">Terapkan</button>
+                    <button class="btn btn-print btn-sm" id="btn-print-trans">🖨 Cetak Laporan</button>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Kode</th>
+                                <th>Tanggal</th>
+                                <th>Nama</th>
+                                <th>Layanan</th>
+                                <th>Barber</th>
+                                <th>Metode</th>
+                                <th>Harga</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactions-table">
+                            <tr><td colspan="8" class="loading-spinner"><div class="spinner"></div> Memuat data...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="total-row">
+                    <span class="total-label">Total Pendapatan (confirmed):</span>
+                    <span class="total-value" id="trans-total-pendapatan">Rp 0</span>
+                </div>
+            </div>
+
+        </div><!-- /page-content -->
+    </div><!-- /main-content -->
+</div><!-- /admin-panel -->
+
+<!-- ════════════════════════════════════════════════════
+     MODALS
+     ════════════════════════════════════════════════════ -->
+
+<!-- Modal: Barber Form -->
+<div class="modal-overlay" id="modal-barber">
+    <div class="modal-box">
+        <div class="modal-header">
+            <div class="modal-title" id="modal-barber-title">Tambah Barber</div>
+            <button class="modal-close" data-close-modal="modal-barber">✕</button>
+        </div>
+        <div class="modal-body">
+            <form id="form-barber" autocomplete="off">
+                <input type="hidden" id="barber-edit-id">
+                <div class="form-group">
+                    <label class="form-label" for="barber-nama">Nama Lengkap</label>
+                    <input type="text" class="form-control" id="barber-nama" placeholder="Nama barber" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="barber-spec">Spesialisasi</label>
+                    <input type="text" class="form-control" id="barber-spec" placeholder="Contoh: Fade & Undercut">
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-ghost" data-close-modal="modal-barber">Batal</button>
+            <button class="btn btn-gold" id="btn-save-barber">Simpan</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Service Form -->
+<div class="modal-overlay" id="modal-service">
+    <div class="modal-box">
+        <div class="modal-header">
+            <div class="modal-title" id="modal-service-title">Tambah Layanan</div>
+            <button class="modal-close" data-close-modal="modal-service">✕</button>
+        </div>
+        <div class="modal-body">
+            <form id="form-service" autocomplete="off">
+                <input type="hidden" id="service-edit-id">
+                <div class="form-group">
+                    <label class="form-label" for="service-nama">Nama Layanan</label>
+                    <input type="text" class="form-control" id="service-nama" placeholder="Nama layanan" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="service-durasi">Durasi (menit)</label>
+                    <input type="number" class="form-control" id="service-durasi" placeholder="30" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="service-harga">Harga (Rupiah)</label>
+                    <input type="number" class="form-control" id="service-harga" placeholder="25000" min="0" required>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-ghost" data-close-modal="modal-service">Batal</button>
+            <button class="btn btn-gold" id="btn-save-service">Simpan</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Confirm Dialog -->
+<div class="modal-overlay" id="modal-confirm">
+    <div class="modal-box" style="width: 380px;">
+        <div class="modal-header">
+            <div class="modal-title" id="confirm-title">Konfirmasi</div>
+            <button class="modal-close" data-close-modal="modal-confirm">✕</button>
+        </div>
+        <div class="modal-body">
+            <div class="confirm-text" id="confirm-text">Apakah Anda yakin?</div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-ghost" data-close-modal="modal-confirm">Batal</button>
+            <button class="btn btn-gold" id="btn-confirm-ok">Ya, Lanjutkan</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toast-container"></div>
+
+<script src="jquery-4.0.0.min.js"></script>
+<script src="bootstrap-5.3.8-dist/js/bootstrap.bundle.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
