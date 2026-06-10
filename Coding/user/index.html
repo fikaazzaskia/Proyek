@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Booking barbershop mudah dan cepat. Pilih layanan, barber, dan jadwal favorit Anda secara online." />
+  <meta name="theme-color" content="#1B2A4A" />
+  <title>Barbershop — Booking Online</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ====== Navigation ====== -->
+  <nav class="navbar" id="navbar">
+    <div class="container navbar-inner">
+      <a href="#" class="navbar-brand" id="nav-brand">Barbershop</a>
+      <ul class="navbar-links" id="nav-links">
+        <li><a href="#services-section">Layanan</a></li>
+        <li><a href="#booking-section">Booking</a></li>
+        <li><a href="#" id="nav-history-btn">Riwayat Booking</a></li>
+        <li><a href="#" class="btn-nav-book" id="nav-book-btn">Booking Sekarang</a></li>
+      </ul>
+      <button class="navbar-mobile-toggle" id="mobile-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ====== Hero Section ====== -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+        Premium Grooming
+      </div>
+      <h1 class="hero-title">
+        <span id="hero-shop-name">Barbershop</span>
+        <span class="accent" id="hero-tagline">Style Starts Here</span>
+      </h1>
+      <p class="hero-tagline" id="hero-desc">Pengalaman grooming terbaik dengan barber profesional. Booking jadwal Anda dalam hitungan detik.</p>
+      <div class="hero-cta-group">
+        <button class="btn-hero btn-hero-primary" id="hero-book-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Booking Sekarang
+        </button>
+        <a href="#services-section" class="btn-hero btn-hero-secondary">Lihat Layanan</a>
+      </div>
+    </div>
+    <div class="hero-scroll-indicator">
+      <span>SCROLL</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ====== Services Section ====== -->
+  <section class="services-section" id="services-section">
+    <div class="container">
+      <div class="services-header">
+        <div class="section-label">Layanan Kami</div>
+        <h2 class="section-title">Layanan & Harga</h2>
+        <p class="section-subtitle">Pilih layanan grooming terbaik untuk Anda. Semua layanan dikerjakan oleh barber berpengalaman.</p>
+      </div>
+      <div class="services-grid" id="services-grid">
+        <!-- Service cards rendered by JS -->
+        <div class="loading-container">
+          <div class="spinner"></div>
+          <span class="loading-text">Memuat layanan...</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== Booking Section ====== -->
+  <section class="booking-section" id="booking-section">
+    <div class="container">
+      <div class="booking-header">
+        <div class="section-label">Reservasi</div>
+        <h2 class="section-title">Booking Online</h2>
+        <p class="section-subtitle">Reservasi jadwal Anda dalam 4 langkah mudah. Tanpa perlu akun atau login.</p>
+      </div>
+
+      <div class="booking-container" id="booking-container">
+        <!-- Steps Indicator -->
+        <div class="steps-indicator" id="steps-indicator">
+          <div class="step-item active" data-step="0">
+            <div class="step-number">1</div>
+            <span class="step-text">Layanan</span>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step-item" data-step="1">
+            <div class="step-number">2</div>
+            <span class="step-text">Barber</span>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step-item" data-step="2">
+            <div class="step-number">3</div>
+            <span class="step-text">Jadwal</span>
+          </div>
+          <div class="step-connector"></div>
+          <div class="step-item" data-step="3">
+            <div class="step-number">4</div>
+            <span class="step-text">Data Diri</span>
+          </div>
+        </div>
+
+        <div class="booking-body">
+          <!-- Step 1: Select Service -->
+          <div class="booking-step active" id="step-0">
+            <h3 class="step-title">Pilih Layanan</h3>
+            <p class="step-description">Pilih satu atau beberapa layanan yang Anda inginkan</p>
+            <div class="selectable-grid" id="booking-services-list">
+              <div class="loading-container">
+                <div class="spinner"></div>
+                <span class="loading-text">Memuat layanan...</span>
+              </div>
+            </div>
+            <div class="booking-nav">
+              <div></div>
+              <button class="btn-next" id="btn-next-0" disabled>
+                Lanjutkan
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 2: Select Barber -->
+          <div class="booking-step" id="step-1">
+            <h3 class="step-title">Pilih Barber</h3>
+            <p class="step-description">Pilih barber favorit Anda</p>
+            <div class="selectable-grid" id="booking-barbers-list">
+              <div class="loading-container">
+                <div class="spinner"></div>
+                <span class="loading-text">Memuat barber...</span>
+              </div>
+            </div>
+            <div class="booking-nav">
+              <button class="btn-back" id="btn-back-1">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                Kembali
+              </button>
+              <button class="btn-next" id="btn-next-1" disabled>
+                Lanjutkan
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 3: Select Date & Time -->
+          <div class="booking-step" id="step-2">
+            <h3 class="step-title">Pilih Jadwal</h3>
+            <p class="step-description">Pilih tanggal dan jam yang tersedia</p>
+            <div id="date-picker-container">
+              <div class="date-picker-scroll" id="date-picker"></div>
+            </div>
+            <div id="time-slots-container" style="display:none;">
+              <div class="time-slots-label">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Jam Tersedia
+              </div>
+              <div class="time-slots-grid" id="time-slots-grid"></div>
+            </div>
+            <div class="booking-nav">
+              <button class="btn-back" id="btn-back-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                Kembali
+              </button>
+              <button class="btn-next" id="btn-next-2" disabled>
+                Lanjutkan
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 4: Customer Info -->
+          <div class="booking-step" id="step-3">
+            <h3 class="step-title">Data Diri</h3>
+            <p class="step-description">Isi data diri Anda untuk keperluan booking</p>
+            <div class="form-group">
+              <label class="form-label" for="input-nama">Nama Lengkap</label>
+              <input type="text" class="form-input" id="input-nama" placeholder="Masukkan nama lengkap Anda" autocomplete="name" />
+              <div class="form-error" id="error-nama">Nama lengkap wajib diisi</div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="input-hp">Nomor HP</label>
+              <input type="tel" class="form-input" id="input-hp" placeholder="Contoh: 08123456789" autocomplete="tel" />
+              <div class="form-hint">Nomor HP aktif untuk konfirmasi booking</div>
+              <div class="form-error" id="error-hp">Nomor HP tidak valid (contoh: 08123456789)</div>
+            </div>
+            <div class="form-group" style="margin-top: 16px;">
+              <div style="display: flex; align-items: flex-start; gap: 8px;">
+                <input type="checkbox" id="agree-terms" style="margin-top: 4px; cursor: pointer;" />
+                <label for="agree-terms" style="font-size: 13px; color: var(--text-secondary); cursor: pointer; user-select: none; line-height: 1.4;">
+                  Saya menyetujui <a href="#" id="link-terms" style="color: var(--accent); text-decoration: underline; font-weight: 600;">Syarat & Ketentuan</a> dan <a href="#" id="link-policy" style="color: var(--accent); text-decoration: underline; font-weight: 600;">Kebijakan Pembatalan</a> King Barbershop.
+                </label>
+              </div>
+              <div class="form-error" id="error-terms">Anda harus menyetujui syarat & ketentuan untuk melanjutkan</div>
+            </div>
+            <div class="booking-nav">
+              <button class="btn-back" id="btn-back-3">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                Kembali
+              </button>
+              <button class="btn-next" id="btn-next-3">
+                Lihat Ringkasan
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Step 5: Summary & Payment -->
+          <div class="booking-step" id="step-summary">
+            <h3 class="step-title">Ringkasan Booking</h3>
+            <p class="step-description">Periksa kembali detail booking Anda</p>
+            <div class="summary-card" id="summary-details">
+              <!-- Rendered by JS -->
+            </div>
+            <div class="summary-total" id="summary-total-bar">
+              <span class="summary-total-label">Total Bayar</span>
+              <span class="summary-total-price" id="summary-total-price">Rp 0</span>
+            </div>
+            <h4 style="font-size:15px; font-weight:600; color:var(--text-secondary); margin-bottom:14px;">Metode Pembayaran</h4>
+            <div class="payment-options">
+              <div class="payment-option" id="pay-qris">
+                <div class="payment-option-icon">📱</div>
+                <div class="payment-option-info">
+                  <div class="payment-option-title">QRIS</div>
+                  <div class="payment-option-desc">Scan QR code dengan e-wallet atau mobile banking</div>
+                </div>
+                <svg class="payment-option-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </div>
+              <div class="payment-option" id="pay-kasir">
+                <div class="payment-option-icon">💵</div>
+                <div class="payment-option-info">
+                  <div class="payment-option-title">Bayar di Kasir</div>
+                  <div class="payment-option-desc">Bayar langsung di tempat saat datang</div>
+                </div>
+                <svg class="payment-option-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              </div>
+            </div>
+            <div class="booking-nav">
+              <button class="btn-back" id="btn-back-summary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                Kembali
+              </button>
+              <div></div>
+            </div>
+          </div>
+
+          <!-- Step 6: QRIS Payment -->
+          <div class="booking-step" id="step-qris">
+            <div class="qris-container">
+              <h3 class="qris-title">Pembayaran QRIS</h3>
+              <p class="qris-instruction">Scan QR code di bawah menggunakan aplikasi e-wallet atau mobile banking Anda</p>
+              <div class="qris-image-wrapper">
+                <img src="" alt="QRIS QR Code" id="qris-image" />
+              </div>
+              <div class="qris-total">Total Pembayaran</div>
+              <div class="qris-total-price" id="qris-total-price">Rp 0</div>
+              <div class="qris-countdown" id="qris-countdown">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Melanjutkan dalam <strong id="qris-timer">30</strong> detik
+              </div>
+              
+              <div class="booking-nav" style="margin-top: 32px; border-top: 1px solid var(--border-light); padding-top: 20px;">
+                <button class="btn-back" id="btn-back-qris" type="button">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                  Kembali
+                </button>
+                <button class="btn-next" id="btn-confirm-qris" type="button">
+                  Saya Sudah Bayar
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 7: Confirmation -->
+          <div class="booking-step" id="step-confirmation">
+            <div class="confirmation-container">
+              <div class="confirmation-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+              <h3 class="confirmation-title">Booking Berhasil!</h3>
+              <p class="confirmation-desc">Terima kasih, booking Anda telah terkonfirmasi</p>
+              <div class="booking-code-badge">
+                <div class="booking-code-label">Kode Booking</div>
+                <div class="booking-code-value" id="booking-code">#B001</div>
+              </div>
+              <div class="confirmation-summary" id="confirmation-summary">
+                <!-- Rendered by JS -->
+              </div>
+              <button class="btn-home" id="btn-home">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                Kembali ke Beranda
+              </button>
+              <button class="btn-home" id="btn-simulate-reminder" style="margin-top: 12px; background: #25D366; color: #fff; border-color: #25D366; display: inline-flex; align-items: center; justify-content: center; gap: 8px;">
+                💬 Simulasikan Pengingat H-1 (WhatsApp)
+              </button>
+            </div>
+          </div>
+
+        </div><!-- /booking-body -->
+      </div><!-- /booking-container -->
+    </div>
+  </section>
+
+  <!-- ====== Footer ====== -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand" id="footer-brand">Barbershop</div>
+        <div class="footer-divider"></div>
+        <p class="footer-text" id="footer-copy">&copy; 2026 Barbershop. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Modal Terms of Service -->
+  <div class="modal-custom" id="modal-terms" style="display: none;">
+    <div class="modal-custom-content">
+      <div class="modal-custom-header">
+        <h4>Syarat & Ketentuan</h4>
+        <button class="modal-custom-close" id="btn-close-terms">&times;</button>
+      </div>
+      <div class="modal-custom-body">
+        <p>Dengan melakukan booking online di King Barbershop, Anda menyetujui ketentuan berikut:</p>
+        <ol>
+          <li>Silakan datang ke barbershop minimal 10 menit sebelum waktu jadwal yang Anda pesan.</li>
+          <li>Kami memberlakukan batas toleransi keterlambatan maksimal 15 menit. Jika melebihi batas waktu tersebut, booking Anda otomatis dianggap hangus.</li>
+          <li>Setiap pelanggan wajib memberikan informasi nama dan nomor WhatsApp yang aktif untuk kemudahan koordinasi.</li>
+          <li>Harga layanan yang tertera di aplikasi belum termasuk biaya admin / biaya layanan online sebesar Rp 2.000.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Cancellation Policy -->
+  <div class="modal-custom" id="modal-policy" style="display: none;">
+    <div class="modal-custom-content">
+      <div class="modal-custom-header">
+        <h4>Kebijakan Pembatalan</h4>
+        <button class="modal-custom-close" id="btn-close-policy">&times;</button>
+      </div>
+      <div class="modal-custom-body">
+        <p>Harap perhatikan kebijakan pembatalan reservasi kami:</p>
+        <ol>
+          <li>Pembatalan booking dapat dilakukan secara mandiri melalui menu <strong>Riwayat Booking</strong> maksimal <strong>2 jam</strong> sebelum waktu jadwal yang dipilih.</li>
+          <li>Untuk transaksi dengan metode pembayaran <strong>Bayar di Kasir (KASIR)</strong>, tidak ada konsekuensi biaya apa pun atas pembatalan.</li>
+          <li>Untuk transaksi dengan metode pembayaran <strong>QRIS</strong> yang telah berhasil dibayar, dana tidak dapat di-refund secara otomatis oleh sistem. Silakan hubungi admin / kasir barbershop untuk pengajuan pengembalian secara manual jika pembatalan disetujui.</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Riwayat Booking -->
+  <div class="modal-custom" id="modal-history" style="display: none;">
+    <div class="modal-custom-content" style="max-width: 600px;">
+      <div class="modal-custom-header">
+        <h4>Riwayat & Lacak Booking</h4>
+        <button class="modal-custom-close" id="btn-close-history">&times;</button>
+      </div>
+      <div class="modal-custom-body">
+        <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+          Lacak status booking Anda atau lakukan pembatalan. Masukkan nomor HP untuk mencari riwayat booking Anda.
+        </p>
+        <div class="form-group" style="display: flex; gap: 8px; margin-bottom: 20px;">
+          <input type="tel" class="form-input" id="search-hp" placeholder="Masukkan Nomor HP Anda" style="margin-bottom: 0; flex: 1;" />
+          <button class="btn-next" id="btn-search-history" style="margin: 0; padding: 12px 24px; font-size: 14px; white-space: nowrap; height: auto;">Cari</button>
+        </div>
+        
+        <div id="history-results-container" style="max-height: 400px; overflow-y: auto;">
+          <!-- JS will render list here -->
+          <p style="text-align: center; color: var(--text-muted); padding: 20px 0;">Belum ada pencarian.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
