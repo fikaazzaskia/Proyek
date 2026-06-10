@@ -1,0 +1,8 @@
+# Environment variables (contains credentials)
+.env
+Coding/.env
+
+# OS junk files
+Thumbs.db
+.DS_Store
+Desktop.ini
